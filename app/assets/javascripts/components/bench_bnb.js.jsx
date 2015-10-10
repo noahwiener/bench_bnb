@@ -5,7 +5,6 @@ Index = React.createClass({
 
   componentDidMount: function() {
     BenchStore.addChangeListener(this._onChange);
-    ApiUtils.fetchBenches();
   },
 
   _onChange: function() {
@@ -29,7 +28,7 @@ Index = React.createClass({
 
 $(document).ready(function(){
   React.render(
-    < Index />,
+    < Search />,
     document.getElementById("content")
   );
 });

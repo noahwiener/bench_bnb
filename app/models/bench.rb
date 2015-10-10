@@ -12,4 +12,14 @@
 
 class Bench < ActiveRecord::Base
   validates :description, presence: true
+
+  def self.in_bounds(bounds)
+    top = bounds["northEast"]["lat"]
+    bottom = bounds["southWest"]["lat"]
+    left = bounds["southWest"]["lng"]
+    right = bounds["northEast"]["lng"]
+
+    self.where({ lat: bottom..top, lng: left..right })
+  end
+
 end

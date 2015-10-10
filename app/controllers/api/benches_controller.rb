@@ -1,6 +1,6 @@
 class Api::BenchesController < ApplicationController
   def index
-    @benches = Bench.all
+    @benches = Bench.in_bounds(params[:bounds])
     render :index
   end
 
@@ -8,6 +8,7 @@ class Api::BenchesController < ApplicationController
     @bench = Bench.new(bench_params)
     render :index
   end
+
 
   private
 

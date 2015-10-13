@@ -9,6 +9,10 @@
     _benches = benches;
   };
 
+  var addBench = function(bench){
+    _benches.push(bench);
+  };
+
   root.BenchStore = $.extend({}, EventEmitter.prototype, {
     all: function (){
       return _benches.slice();
@@ -22,6 +26,9 @@
     dispatcherID: AppDispatcher.register(function(payload){
       if(payload.actionType === BenchConstants.BENCHES_RECEIVED){
         resetBenches(payload.benches);
+        BenchStore.emit(CHANGE_EVENT);
+      }else if (payload.actionType === BenchConstants.BENCH_ADDED){
+        addBench(payload.bench);
         BenchStore.emit(CHANGE_EVENT);
       }
     })

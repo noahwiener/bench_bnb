@@ -1,4 +1,4 @@
-class CreateBenches < ActiveRecord::Migration
+class UpdateBenches < ActiveRecord::Migration
   def change
     add_column :benches, :seating, :integer
   end

@@ -8,18 +8,24 @@
 #  lng         :float
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  seating     :integer
 #
 
 class Bench < ActiveRecord::Base
   validates :description, presence: true
 
-  def self.in_bounds(bounds)
-    top = bounds["northEast"]["lat"]
-    bottom = bounds["southWest"]["lat"]
-    left = bounds["southWest"]["lng"]
-    right = bounds["northEast"]["lng"]
+  def self.in_bounds(filters)
+    top = filters["bounds"]["northEast"]["lat"]
+    bottom = filters["bounds"]["southWest"]["lat"]
+    left = filters["bounds"]["southWest"]["lng"]
+    right = filters["bounds"]["northEast"]["lng"]
+    min = filters["minSeats"]
+    max = filters["maxSeats"]
 
-    self.where({ lat: bottom..top, lng: left..right })
+    self.where({ lat: bottom..top, lng: left..right, seating: min..max })
+
   end
+
+
 
 end

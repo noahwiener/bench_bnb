@@ -1,11 +1,9 @@
 Map = React.createClass({
-  getInitialState: function(){
-    return {markers: []};
-  },
+
 
   _updateMarkers: function(){
 
-    this.state.markers.forEach(function(marker){
+    this.markers.forEach(function(marker){
       marker.setMap(null);
     }.bind(this));
 
@@ -23,10 +21,10 @@ Map = React.createClass({
       }.bind(this));
 
 
-    this.setState({ markers: current_markers });
+    this.markers = current_markers;
 
 
-    this.state.markers.forEach(function(marker){
+    this.markers.forEach(function(marker){
       marker.setMap(this.map);
     }.bind(this));
 },
@@ -46,6 +44,7 @@ Map = React.createClass({
   },
 
   componentDidMount: function(){
+    this.markers = [];
     var map = React.findDOMNode(this.refs.map);
     var mapOptions = {
       center: {lat: 37.7758, lng: -122.435},
@@ -54,10 +53,17 @@ Map = React.createClass({
     this.map = new google.maps.Map(map, mapOptions);
 
     this.map.addListener('idle', function(){
-      ApiUtils.fetchBenches(this.bounds());
+      // ApiUtils.fetchBenches(this.bounds());
+      FilterActions.receiveBounds(this.bounds());
     }.bind(this));
 
     BenchStore.addChangeListener(this._updateMarkers);
+
+    this.map.addListener('click', function(e){
+      var coords = {lat: e.latLng.J, lng: e.latLng.M};
+      this.props.handleClick(coords);
+    }.bind(this));
+
   },
 
   render: function(){
